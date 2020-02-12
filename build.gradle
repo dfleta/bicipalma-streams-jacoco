@@ -1,0 +1,33 @@
+
+plugins {
+    id 'java'
+    id 'application'
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    testImplementation 'junit:junit:4.12'
+}
+
+sourceSets {
+    main {
+        java {
+            // srcDirs property replaces any existing values
+            // Gradle will only search directly in src for 
+            // the respective source code 
+            srcDirs = ['src']
+        }
+    }
+}
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_11
+    targetCompatibility = JavaVersion.VERSION_11
+}
+
+application {
+    mainClassName = 'appalma.BiciPalma'
+}
