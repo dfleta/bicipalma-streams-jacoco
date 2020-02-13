@@ -7,19 +7,18 @@ import domain.tarjetausuario.TarjetaUsuario;
 
 public class Estacion {
 
-	private int id = 0;
-	private String direccion = null;
-	private int numeroAnclajes = 0;
-	private Bicicleta[] anclajes = null; // referencia a estructura datos anclajes, sea cual sea
-
-	// pero la estructura ha de estar en su clase hardware anclajes por SRP:
-	// la estación de divide en centralita = lógica y hardware anclajes que es la
-	// interfaz con el usuario/a.
-	// Hard anclaje no es una capa de acceso a datos... pero casi ¿?
-	// este diseño se ve influido por el diseño de la BBDD: entidades libro UML
-	// Quique
-
-	/* CONSTRUCTOR */
+	private final int id;
+	private final String direccion;
+	private final int numeroAnclajes;
+	private final Bicicleta[] anclajes; 
+	
+	// referencia a estructura datos anclajes, sea cual sea
+	// La estructura ha de estar en su clase hardware /anclajes por SRP:
+	// La estación de divide en centralita = lógica y hardware /anclajes
+	// que es la interfaz con el usuario/a.
+	// Hardware anclaje no es una capa de acceso a datos... pero casi ¿?
+	// Este diseño se ve influido por el diseño de la BBDD: 
+	// Entidades libro UML Quique
 
 	public Estacion(int id, String direccion, int anclajes) {
 
@@ -27,39 +26,43 @@ public class Estacion {
 		this.direccion = direccion;
 		this.numeroAnclajes = anclajes;
 		this.anclajes = new Bicicleta[anclajes];
-
 	}
 
-	public int getId() {
+	private int getId() {
 		return id;
 	}
 
-	public String getDireccion() {
+	private String getDireccion() {
 		return direccion;
 	}
 
-	public int getNumeroAnclajes() {
+	private int getNumeroAnclajes() {
 		return numeroAnclajes;
+	}
+
+	private Bicicleta[] getAnclajes() {
+		return this.anclajes;
+	}
+
+	@Override
+	public String toString() {
+		return 	"id: " + getId() + '\n' +
+				"direccion: " + getDireccion() + '\n' +
+				"numeroAnclajes: " + getNumeroAnclajes();
 	}
 
 	/* LOGICA */
 
 	public void consultarEstacion() {
-		System.out.println("id: " + getId());
-		System.out.println("direccion: " + getDireccion());
-		System.out.println("numeroAnclajes: " + getNumeroAnclajes());
+		System.out.println(this);
 	}
 
 	public int anclajesLibres() {
 
 		int anclajesLibres = 0;
-
-		for (Bicicleta anclaje : this.anclajes) {
-			// si el registro del array está en null => está libre
-			if (anclaje == null) {
-				anclajesLibres++;
-			} else
-				;
+		for (Bicicleta anclaje : getAnclajes()) {
+			// si el registro del array es null => anclaje libre
+			anclajesLibres = anclaje == null? ++anclajesLibres : anclajesLibres;
 		}
 		return anclajesLibres;
 	}
@@ -75,14 +78,15 @@ public class Estacion {
 				this.anclajes[posicion] = bicicleta; // set anclaje
 				mostrarAnclaje(bicicleta, numeroAnclaje);
 				break;
-			} else
+			} else {
 				posicion++;
+			}
 			numeroAnclaje++;
 		}
 	}
 
 	public boolean leerTarjetaUsuario(TarjetaUsuario tarjetaUsuario) {
-		return tarjetaUsuario.getActivada();
+		return tarjetaUsuario.isActivada();
 	}
 
 	public void retirarBicicleta(TarjetaUsuario tarjetaUsuario) {
@@ -106,16 +110,19 @@ public class Estacion {
 					; // generamos nuevo número de anclaje;
 			}
 
-		} else
+		} else {
 			System.out.println("Tarjeta de usuario inactiva :(");
+		}
 	}
 
-	public void mostrarBicicleta(Bicicleta bicicleta, int numeroAnclaje) {
-		System.out.println("bicicleta retirada: " + bicicleta.getId() + " del anclaje: " + numeroAnclaje);
+	private void mostrarBicicleta(Bicicleta bicicleta, int numeroAnclaje) {
+		System.out.println("bicicleta retirada: " + bicicleta.getId() 
+							+ " del anclaje: " + numeroAnclaje);
 	}
 
-	public void mostrarAnclaje(Bicicleta bicicleta, int numeroAnclaje) {
-		System.out.println("bicicleta: " + bicicleta.getId() + " anclada en el anclaje: " + numeroAnclaje);
+	private void mostrarAnclaje(Bicicleta bicicleta, int numeroAnclaje) {
+		System.out.println("bicicleta " + bicicleta.getId() + 
+						   " anclada en el anclaje " + numeroAnclaje);
 	}
 
 	public void consultarAnclajes() {
@@ -128,14 +135,14 @@ public class Estacion {
 			numeroAnclaje = posicion + 1;
 			if (bicicleta != null) {
 				System.out.println("Anclaje " + numeroAnclaje + " " + this.anclajes[posicion].getId());
-			} else
+			} else {
 				System.out.println("Anclaje " + numeroAnclaje + " " + " libre");
-
+			}
 			posicion++;
 		}
 	}
 
-	public int generarAnclaje() { // a hardware anclaje
+	private int generarAnclaje() { // a hardware anclaje
 		Integer numeroEntero = ThreadLocalRandom.current().nextInt(0, this.anclajes.length);
 		return numeroEntero;
 	}

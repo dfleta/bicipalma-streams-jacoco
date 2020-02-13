@@ -2,7 +2,7 @@ package domain.bicicleta;
 
 public class Bicicleta {
 
-	private int id = 0;
+	private final int id;
 
 	public Bicicleta(int id) {
 		this.id = id;
@@ -11,5 +11,4 @@ public class Bicicleta {
 	public int getId() {
 		return id;
 	}
-
 }
