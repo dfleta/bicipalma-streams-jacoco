@@ -1,36 +1,51 @@
 package domain.estacion;
 
+import java.util.concurrent.ThreadLocalRandom;
+
 import domain.bicicleta.Bicicleta;
+import domain.estacion.Anclaje;
 
-public class Anclajes {
+class Anclajes {
 
-    private final Bicicleta[] bicicletas; 
+    private final Anclaje[] anclajes;
 
-    public Anclajes(int numAnclajes) {
-        this.bicicletas = new Bicicleta[numAnclajes];
+    Anclajes(int numAnclajes) {
+        this.anclajes = new Anclaje[numAnclajes];
+        crearAnclajes();
     }
 
-    public Bicicleta[] getBicicletas() {
-        return this.bicicletas;
+    private void crearAnclajes() {
+		for (int i = 0; i < anclajes.length; i++) {
+			this.anclajes[i] = new Anclaje();
+		}
+    }
+    
+    Anclaje[] anclajes() {
+		return this.anclajes;
+    }
+    
+    int numAnclajes() {
+        return this.anclajes.length;
     }
 
-    public void ocuparAnclaje(int posicion, Bicicleta bici ) {
-        this.bicicletas[posicion] = bici;
+    void ocuparAnclaje(int posicion, Bicicleta bici) {
+		this.anclajes[posicion].anclarBici(bici);
     }
 
-    public void liberarAnclaje(int posicion) {
-        this.bicicletas[posicion] = null;
+    boolean isAnclajeOcupado(int posicion) {
+		return this.anclajes[posicion].isOcupado();
+	}
+
+    void liberarAnclaje(int posicion) {
+		this.anclajes[posicion].liberarBici();
+    }
+    
+    Bicicleta getBiciAt(int posicion) {
+        return this.anclajes[posicion].getBici();
     }
 
-    public boolean isAnclajeLibre(int posicion) {
-        return this.bicicletas[posicion] == null? true : false;
-    }
-
-    public int numAnclajes() {
-        return this.bicicletas.length;
-    }
-
-    public Bicicleta getBici(int posicion) {
-        return this.bicicletas[posicion];
+    int seleccionarAnclaje() {
+		Integer idAnclaje = ThreadLocalRandom.current().nextInt(0, numAnclajes());
+		return idAnclaje;
     }
 }

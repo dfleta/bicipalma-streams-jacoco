@@ -4,19 +4,20 @@ import java.util.concurrent.ThreadLocalRandom;
 
 import domain.bicicleta.Bicicleta;
 import domain.tarjetausuario.TarjetaUsuario;
+import domain.estacion.Anclajes;
 
 public class Estacion {
 
 	private final int id;
 	private final String direccion;
-	private final Anclaje[] anclajes; 
+	private final Anclajes anclajes;
 	
 	/** 
-	 * referencia a estructura datos anclajes, sea cual sea
-	 * La estructura ha de estar en su clase hardware /anclajes por SRP:
-	 * La estación de divide en centralita = lógica y hardware /anclajes
+	 * Estacion tiene una (has-a) ADT anclajes, sea cual sea
+	 * El ADT ha de estar en su clase anclajes por SRP.
+	 * La estación de divide en centralita /lógica y hardware /anclajes
 	 * que es la interfaz con el usuario/a.
-	 * Hardware anclaje no es una capa de acceso a datos... pero casi ¿?
+	 * Hardware anclaje no es una capa de acceso a datos... pero casi
 	 * Este diseño se ve influido por el diseño de la BBDD: 
 	 * Entidades libro UML Quique
 	 */
@@ -24,14 +25,7 @@ public class Estacion {
 	public Estacion(int id, String direccion, int numAnclajes) {
 		this.id = id;
 		this.direccion = direccion;
-		this.anclajes = new Anclaje[numAnclajes];
-		crearAnclajes(numAnclajes);
-	}
-
-	private void crearAnclajes(int numAnclajes) {
-		for (int i = 0; i < numAnclajes; i++) {
-			this.anclajes[i] = new Anclaje();
-		}
+		this.anclajes = new Anclajes(numAnclajes);
 	}
 
 	private int getId() {
@@ -42,30 +36,6 @@ public class Estacion {
 		return direccion;
 	}
 
-	private Anclaje[] getAnclajes() {
-		return this.anclajes;
-	}
-
-	private void ocuparAnclaje(int posicion, Bicicleta bici) {
-		this.anclajes[posicion].anclarBici(bici);
-	}
-
-	private void liberarAnclaje(int posicion) {
-		this.anclajes[posicion].liberarBici();
-	}
-
-	private boolean isAnclajeOcupado(int posicion) {
-		return this.anclajes[posicion].isOcupado();
-	}
-
-	private int numAnclajes() {
-		return this.anclajes.length;
-	}
-
-	private Bicicleta getBici(int posicion) {
-		return this.anclajes[posicion].getBici();
-	}
-
 	@Override
 	public String toString() {
 		return 	"id: " + getId() + '\n' +
@@ -73,7 +43,21 @@ public class Estacion {
 				"numeroAnclajes: " + numAnclajes();
 	}
 
-	/* LOGICA */
+	/**
+	 * Acceso a anclajes
+	 */
+
+	private Anclaje[] anclajes() {
+		return this.anclajes.anclajes();
+	}
+
+	private int numAnclajes() {
+		return this.anclajes.numAnclajes();
+	}
+
+	/**
+	 * Lógica
+	 */
 
 	public void consultarEstacion() {
 		System.out.println(this);
@@ -82,7 +66,7 @@ public class Estacion {
 	public int anclajesLibres() {
 
 		int anclajesLibres = 0;
-		for (Anclaje anclaje : getAnclajes()) {
+		for (Anclaje anclaje : anclajes()) {
 			// si el registro del array es null => anclaje libre
 			anclajesLibres = anclaje.isOcupado()? anclajesLibres: ++anclajesLibres;
 		}
@@ -95,9 +79,9 @@ public class Estacion {
 		int posicion = 0;
 		int numeroAnclaje = posicion + 1;
 
-		for (Anclaje anclaje : getAnclajes()) {
+		for (Anclaje anclaje : anclajes()) {
 			if (!anclaje.isOcupado()) { // leer anclaje
-				ocuparAnclaje(posicion, bici); // set anclaje
+				anclajes.ocuparAnclaje(posicion, bici); // set anclaje
 				mostrarAnclaje(bici, numeroAnclaje);
 				break;
 			} else {
@@ -121,12 +105,12 @@ public class Estacion {
 
 			while (!biciRetirada) {
 
-				int posicion = generarAnclaje();
+				int posicion = anclajes.seleccionarAnclaje();
 				int numeroAnclaje = posicion + 1;
 
-				if (isAnclajeOcupado(posicion)) { // leer anclaje
-					mostrarBicicleta(getBici(posicion), numeroAnclaje);
-					liberarAnclaje(posicion); // set anclaje
+				if (anclajes.isAnclajeOcupado(posicion)) { // leer anclaje
+					mostrarBicicleta(anclajes.getBiciAt(posicion), numeroAnclaje);
+					anclajes.liberarAnclaje(posicion); // set anclaje
 					biciRetirada = true;
 				} else
 					; // generamos nuevo número de anclaje;
@@ -148,12 +132,13 @@ public class Estacion {
 	}
 
 	public void consultarAnclajes() {
-		// recorre el array anclajes y muestra el id de la bici anclada o si está libre
+		// Recorre el array anclajes y 
+		// Muestra si está libre o el id de la bici anclada 
 
 		int posicion = 0;
 		int numeroAnclaje = 0;
 
-		for (Anclaje anclaje : getAnclajes()) {
+		for (Anclaje anclaje : anclajes()) {
 			numeroAnclaje = posicion + 1;
 			if (anclaje.isOcupado()) {
 				System.out.println("Anclaje " + numeroAnclaje + " " + anclaje.getBici().getId());
@@ -163,10 +148,4 @@ public class Estacion {
 			posicion++;
 		}
 	}
-
-	private int generarAnclaje() { // a hardware anclaje
-		Integer numeroEntero = ThreadLocalRandom.current().nextInt(0, numAnclajes());
-		return numeroEntero;
-	}
-
 }
