@@ -48,4 +48,9 @@ class Anclajes {
 		Integer idAnclaje = ThreadLocalRandom.current().nextInt(0, numAnclajes());
 		return idAnclaje;
     }
+
+    @Override
+    public String toString() {
+        return "Numero de anclajes: " + Integer.toString(numAnclajes());
+    }
 }
