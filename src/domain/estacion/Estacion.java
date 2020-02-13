@@ -2,6 +2,7 @@ package domain.estacion;
 
 import java.util.concurrent.ThreadLocalRandom;
 
+import domain.estacion.Anclajes;
 import domain.bicicleta.Bicicleta;
 import domain.tarjetausuario.TarjetaUsuario;
 
@@ -10,7 +11,7 @@ public class Estacion {
 	private final int id;
 	private final String direccion;
 	private final int numeroAnclajes;
-	private final Bicicleta[] anclajes; 
+	private final Anclajes anclajes; 
 	
 	/** 
 	 * referencia a estructura datos anclajes, sea cual sea
@@ -22,12 +23,12 @@ public class Estacion {
 	 * Entidades libro UML Quique
 	 */
 
-	public Estacion(int id, String direccion, int anclajes) {
+	public Estacion(int id, String direccion, int numAnclajes) {
 
 		this.id = id;
 		this.direccion = direccion;
-		this.numeroAnclajes = anclajes;
-		this.anclajes = new Bicicleta[anclajes];
+		this.numeroAnclajes = numAnclajes;
+		this.anclajes = new Anclajes(numAnclajes);
 	}
 
 	private int getId() {
@@ -43,7 +44,27 @@ public class Estacion {
 	}
 
 	private Bicicleta[] getAnclajes() {
-		return this.anclajes;
+		return this.anclajes.getBicicletas();
+	}
+
+	private void ocuparAnclaje(int posicion, Bicicleta bici) {
+		this.anclajes.ocuparAnclaje(posicion, bici);
+	}
+
+	private void liberarAnclaje(int posicion) {
+		this.anclajes.liberarAnclaje(posicion);
+	}
+
+	private boolean isAnclajeLibre(int posicion) {
+		return this.anclajes.isAnclajeLibre(posicion);
+	}
+
+	private int numAnclajes() {
+		return this.anclajes.numAnclajes();
+	}
+
+	private Bicicleta getBici(int posicion) {
+		return this.anclajes.getBici(posicion);
 	}
 
 	@Override
@@ -75,9 +96,9 @@ public class Estacion {
 		int posicion = 0;
 		int numeroAnclaje = posicion + 1;
 
-		for (Bicicleta anclaje : this.anclajes) {
+		for (Bicicleta anclaje : getAnclajes()) {
 			if (anclaje == null) { // leer anclaje
-				this.anclajes[posicion] = bicicleta; // set anclaje
+				ocuparAnclaje(posicion, bicicleta); // set anclaje
 				mostrarAnclaje(bicicleta, numeroAnclaje);
 				break;
 			} else {
@@ -104,9 +125,9 @@ public class Estacion {
 				int posicion = generarAnclaje();
 				int numeroAnclaje = posicion + 1;
 
-				if (this.anclajes[posicion] != null) { // leer anclaje
-					mostrarBicicleta(this.anclajes[posicion], numeroAnclaje);
-					this.anclajes[posicion] = null; // set anclaje
+				if (!isAnclajeLibre(posicion)) { // leer anclaje
+					mostrarBicicleta(getBici(posicion), numeroAnclaje);
+					liberarAnclaje(posicion); // set anclaje
 					biciRetirada = true;
 				} else
 					; // generamos nuevo número de anclaje;
@@ -123,8 +144,8 @@ public class Estacion {
 	}
 
 	private void mostrarAnclaje(Bicicleta bicicleta, int numeroAnclaje) {
-		System.out.println("bicicleta " + bicicleta.getId() + 
-						   " anclada en el anclaje " + numeroAnclaje);
+		System.out.println("bicicleta " + bicicleta.getId() 
+							+ " anclada en el anclaje " + numeroAnclaje);
 	}
 
 	public void consultarAnclajes() {
@@ -133,10 +154,10 @@ public class Estacion {
 		int posicion = 0;
 		int numeroAnclaje = 0;
 
-		for (Bicicleta bicicleta : this.anclajes) {
+		for (Bicicleta bicicleta : getAnclajes()) {
 			numeroAnclaje = posicion + 1;
 			if (bicicleta != null) {
-				System.out.println("Anclaje " + numeroAnclaje + " " + this.anclajes[posicion].getId());
+				System.out.println("Anclaje " + numeroAnclaje + " " + bicicleta.getId());
 			} else {
 				System.out.println("Anclaje " + numeroAnclaje + " " + " libre");
 			}
@@ -145,7 +166,7 @@ public class Estacion {
 	}
 
 	private int generarAnclaje() { // a hardware anclaje
-		Integer numeroEntero = ThreadLocalRandom.current().nextInt(0, this.anclajes.length);
+		Integer numeroEntero = ThreadLocalRandom.current().nextInt(0, numAnclajes());
 		return numeroEntero;
 	}
 
