@@ -12,13 +12,15 @@ public class Estacion {
 	private final int numeroAnclajes;
 	private final Bicicleta[] anclajes; 
 	
-	// referencia a estructura datos anclajes, sea cual sea
-	// La estructura ha de estar en su clase hardware /anclajes por SRP:
-	// La estación de divide en centralita = lógica y hardware /anclajes
-	// que es la interfaz con el usuario/a.
-	// Hardware anclaje no es una capa de acceso a datos... pero casi ¿?
-	// Este diseño se ve influido por el diseño de la BBDD: 
-	// Entidades libro UML Quique
+	/** 
+	 * referencia a estructura datos anclajes, sea cual sea
+	 * La estructura ha de estar en su clase hardware /anclajes por SRP:
+	 * La estación de divide en centralita = lógica y hardware /anclajes
+	 * que es la interfaz con el usuario/a.
+	 * Hardware anclaje no es una capa de acceso a datos... pero casi ¿?
+	 * Este diseño se ve influido por el diseño de la BBDD: 
+	 * Entidades libro UML Quique
+	 */
 
 	public Estacion(int id, String direccion, int anclajes) {
 

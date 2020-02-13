@@ -10,30 +10,30 @@ public class BiciPalma {
 
 		Estacion estacion = new Estacion(1, "Manacor", 6);
 
-		/*
-		 * caso TEST visualizar estado de la estacion muestra id, direccion, anclaje
+		/**
+		 * caso TEST visualizar estado de la estacion:
+		 * muestra id, direccion, anclaje 
 		 */
 
 		System.out.println("\n **** caso TEST visualizar estado de la estacion **** \n");
 
 		estacion.consultarEstacion();
 
-		/* caso TEST visualizar anclajes libres */
+		/**
+		 * caso TEST visualizar anclajes libres
+		 */
 
 		System.out.println("\n **** caso TEST visualizar anclajes libres **** \n");
 
 		System.out.println("anclajesLibres: " + estacion.anclajesLibres());
 
-		/* caso TEST anclar bicicleta(s) */
+		/**
+		 * caso TEST anclar bicicleta(s) 
+		 */
 
 		System.out.println("\n **** caso TEST anclar bicicleta(s) **** \n");
 
 		int[] bicicletas = { 291, 292, 293, 294 };
-
-		/*
-		 * // generar anclaje random for (int i: bicicletas){ System.out.println(
-		 * estacion.generarAnclaje()); }
-		 */
 		
 		Bicicleta bicicleta = null;
 		for (int id : bicicletas) {
@@ -41,16 +41,20 @@ public class BiciPalma {
 			estacion.anclarBicicleta(bicicleta);
 		}
 
-		System.out.println("anclajes libres tras generar " + bicicletas.length + 
-						   " bicis: " + estacion.anclajesLibres());
+		System.out.println("anclajes libres tras generar " + bicicletas.length 
+							+ " bicis: " + estacion.anclajesLibres());
 
-		/* caso TEST consultar bicicletas ancladas */
+		/**
+		 * Caso TEST consultar bicicletas ancladas 
+		 */
 
 		System.out.println("\n **** caso TEST consultar bicicletas ancladas **** \n");
 
 		estacion.consultarAnclajes();
 
-		/* caso TEST retirar bicicleta */
+		/** 
+		 * Caso TEST retirar bicicleta 
+		 */
 
 		System.out.println("\n **** caso TEST retirar bicicleta **** \n");
 
@@ -65,7 +69,9 @@ public class BiciPalma {
 
 		System.out.println("anclajesLibres: " + estacion.anclajesLibres());
 
-		/* caso TEST tarjeta inactiva */
+		/**
+		 * Caso TEST tarjeta inactiva 
+		 */
 
 		System.out.println("\n **** caso TEST tarjeta inactiva **** \n");
 
@@ -77,6 +83,5 @@ public class BiciPalma {
 		estacion.retirarBicicleta(tarjetaUsuario);
 
 		estacion.consultarAnclajes();
-
 	}
 }
