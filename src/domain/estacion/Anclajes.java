@@ -7,6 +7,11 @@ import domain.estacion.Anclaje;
 
 class Anclajes {
 
+    /**
+     * Anclajes es una composición
+     * (agregacion fuerte) de Anclaje
+     */
+     
     private final Anclaje[] anclajes;
 
     Anclajes(int numAnclajes) {

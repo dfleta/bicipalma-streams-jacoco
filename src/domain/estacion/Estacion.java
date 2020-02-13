@@ -1,7 +1,5 @@
 package domain.estacion;
 
-import java.util.concurrent.ThreadLocalRandom;
-
 import domain.bicicleta.Bicicleta;
 import domain.tarjetausuario.TarjetaUsuario;
 import domain.estacion.Anclajes;

@@ -5,6 +5,7 @@ import domain.bicicleta.Bicicleta;
 class Anclaje {
 
     private boolean ocupado = false;
+    // Anclaje tiene una / has-a Bicicleta
     private Bicicleta bici = null;
 
     Anclaje() {};
