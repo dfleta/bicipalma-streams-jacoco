@@ -10,8 +10,7 @@ public class Estacion {
 
 	private final int id;
 	private final String direccion;
-	private final int numeroAnclajes;
-	private final Anclajes anclajes; 
+	private final Anclaje[] anclajes; 
 	
 	/** 
 	 * referencia a estructura datos anclajes, sea cual sea
@@ -24,11 +23,16 @@ public class Estacion {
 	 */
 
 	public Estacion(int id, String direccion, int numAnclajes) {
-
 		this.id = id;
 		this.direccion = direccion;
-		this.numeroAnclajes = numAnclajes;
-		this.anclajes = new Anclajes(numAnclajes);
+		this.anclajes = new Anclaje[numAnclajes];
+		crearAnclajes(numAnclajes);
+	}
+
+	private void crearAnclajes(int numAnclajes) {
+		for (int i = 0; i < numAnclajes; i++) {
+			this.anclajes[i] = new Anclaje();
+		}
 	}
 
 	private int getId() {
@@ -39,39 +43,35 @@ public class Estacion {
 		return direccion;
 	}
 
-	private int getNumeroAnclajes() {
-		return numeroAnclajes;
-	}
-
-	private Bicicleta[] getAnclajes() {
-		return this.anclajes.getBicicletas();
+	private Anclaje[] getAnclajes() {
+		return this.anclajes;
 	}
 
 	private void ocuparAnclaje(int posicion, Bicicleta bici) {
-		this.anclajes.ocuparAnclaje(posicion, bici);
+		this.anclajes[posicion].anclarBici(bici);
 	}
 
 	private void liberarAnclaje(int posicion) {
-		this.anclajes.liberarAnclaje(posicion);
+		this.anclajes[posicion].liberarBici();
 	}
 
-	private boolean isAnclajeLibre(int posicion) {
-		return this.anclajes.isAnclajeLibre(posicion);
+	private boolean isAnclajeOcupado(int posicion) {
+		return this.anclajes[posicion].isOcupado();
 	}
 
 	private int numAnclajes() {
-		return this.anclajes.numAnclajes();
+		return this.anclajes.length;
 	}
 
 	private Bicicleta getBici(int posicion) {
-		return this.anclajes.getBici(posicion);
+		return this.anclajes[posicion].getBici();
 	}
 
 	@Override
 	public String toString() {
 		return 	"id: " + getId() + '\n' +
 				"direccion: " + getDireccion() + '\n' +
-				"numeroAnclajes: " + getNumeroAnclajes();
+				"numeroAnclajes: " + numAnclajes();
 	}
 
 	/* LOGICA */
@@ -83,23 +83,23 @@ public class Estacion {
 	public int anclajesLibres() {
 
 		int anclajesLibres = 0;
-		for (Bicicleta anclaje : getAnclajes()) {
+		for (Anclaje anclaje : getAnclajes()) {
 			// si el registro del array es null => anclaje libre
-			anclajesLibres = anclaje == null? ++anclajesLibres : anclajesLibres;
+			anclajesLibres = anclaje.isOcupado()? anclajesLibres: ++anclajesLibres;
 		}
 		return anclajesLibres;
 	}
 
-	public void anclarBicicleta(Bicicleta bicicleta) {
+	public void anclarBicicleta(Bicicleta bici) {
 		// insertar el objeto bicicleta en el primer registro libre del array
 
 		int posicion = 0;
 		int numeroAnclaje = posicion + 1;
 
-		for (Bicicleta anclaje : getAnclajes()) {
-			if (anclaje == null) { // leer anclaje
-				ocuparAnclaje(posicion, bicicleta); // set anclaje
-				mostrarAnclaje(bicicleta, numeroAnclaje);
+		for (Anclaje anclaje : getAnclajes()) {
+			if (!anclaje.isOcupado()) { // leer anclaje
+				ocuparAnclaje(posicion, bici); // set anclaje
+				mostrarAnclaje(bici, numeroAnclaje);
 				break;
 			} else {
 				posicion++;
@@ -125,7 +125,7 @@ public class Estacion {
 				int posicion = generarAnclaje();
 				int numeroAnclaje = posicion + 1;
 
-				if (!isAnclajeLibre(posicion)) { // leer anclaje
+				if (isAnclajeOcupado(posicion)) { // leer anclaje
 					mostrarBicicleta(getBici(posicion), numeroAnclaje);
 					liberarAnclaje(posicion); // set anclaje
 					biciRetirada = true;
@@ -154,10 +154,10 @@ public class Estacion {
 		int posicion = 0;
 		int numeroAnclaje = 0;
 
-		for (Bicicleta bicicleta : getAnclajes()) {
+		for (Anclaje anclaje : getAnclajes()) {
 			numeroAnclaje = posicion + 1;
-			if (bicicleta != null) {
-				System.out.println("Anclaje " + numeroAnclaje + " " + bicicleta.getId());
+			if (anclaje.isOcupado()) {
+				System.out.println("Anclaje " + numeroAnclaje + " " + anclaje.getBici().getId());
 			} else {
 				System.out.println("Anclaje " + numeroAnclaje + " " + " libre");
 			}

@@ -27,6 +27,8 @@ public class BiciPalma {
 
 		System.out.println("anclajesLibres: " + estacion.anclajesLibres());
 
+		estacion.consultarAnclajes();
+
 		/**
 		 * caso TEST anclar bicicleta(s) 
 		 */
