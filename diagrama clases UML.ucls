@@ -3,7 +3,7 @@
   associations="true" dependencies="true" nesting-relationships="true" router="FAN">  
   <class id="1" language="java" name="domain.bicicleta.Bicicleta" project="bicipalma" 
     file="/bicipalma/src/domain/bicicleta/Bicicleta.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="807" y="326"/>    
+    <position height="-1" width="-1" x="802" y="258"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
@@ -12,7 +12,7 @@
   </class>  
   <class id="2" language="java" name="domain.estacion.Anclaje" project="bicipalma" 
     file="/bicipalma/src/domain/estacion/Anclaje.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="589" y="525"/>    
+    <position height="-1" width="-1" x="613" y="458"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
@@ -21,7 +21,7 @@
   </class>  
   <class id="3" language="java" name="domain.estacion.Anclajes" project="bicipalma" 
     file="/bicipalma/src/domain/estacion/Anclajes.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="253" width="175" x="167" y="315"/>    
+    <position height="253" width="175" x="168" y="329"/>    
     <display autosize="false" stereotype="true" package="true" initial-value="true" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
@@ -48,7 +48,7 @@
   </class>  
   <class id="6" language="java" name="appalma.BiciPalma" project="bicipalma" 
     file="/bicipalma/src/appalma/BiciPalma.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="813" y="166"/>    
+    <position height="-1" width="-1" x="809" y="84"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
@@ -58,10 +58,10 @@
   <association id="7">    
     <end type="SOURCE" refId="3" navigable="false">      
       <attribute id="8" name="anclajes">        
-        <position height="0" width="0" x="44" y="117"/>      
+        <position height="0" width="0" x="68" y="50"/>      
       </attribute>      
       <multiplicity id="9" minimum="0" maximum="2147483647">        
-        <position height="0" width="0" x="44" y="117"/>      
+        <position height="0" width="0" x="68" y="50"/>      
       </multiplicity>    
     </end>    
     <end type="TARGET" refId="2" navigable="true"/>    
@@ -76,12 +76,13 @@
     <end type="TARGET" refId="2"/>  
   </dependency>  
   <association id="12">    
+    <bendpoint x="803" y="455"/>    
     <end type="SOURCE" refId="2" navigable="false">      
       <attribute id="13" name="bici">        
-        <position height="0" width="0" x="18" y="-107"/>      
+        <position height="0" width="0" x="13" y="-175"/>      
       </attribute>      
       <multiplicity id="14" minimum="0" maximum="1">        
-        <position height="0" width="0" x="18" y="-107"/>      
+        <position height="0" width="0" x="13" y="-175"/>      
       </multiplicity>    
     </end>    
     <end type="TARGET" refId="1" navigable="true"/>    
@@ -94,10 +95,10 @@
   <association id="16">    
     <end type="SOURCE" refId="4" navigable="false">      
       <attribute id="17" name="anclajes">        
-        <position height="0" width="0" x="-28" y="9"/>      
+        <position height="0" width="0" x="-27" y="23"/>      
       </attribute>      
       <multiplicity id="18" minimum="0" maximum="1">        
-        <position height="0" width="0" x="-28" y="9"/>      
+        <position height="0" width="0" x="-27" y="23"/>      
       </multiplicity>    
     </end>    
     <end type="TARGET" refId="3" navigable="true"/>    
