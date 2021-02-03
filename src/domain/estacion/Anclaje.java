@@ -1,12 +1,12 @@
 package domain.estacion;
 
-import domain.bicicleta.Bicicleta;
+import domain.bicicleta.Movil;
 
 class Anclaje {
 
     private boolean ocupado = false;
     // Anclaje tiene una / has-a Bicicleta
-    private Bicicleta bici = null;
+    private Movil bici = null;
 
     Anclaje() {};
 
@@ -14,11 +14,11 @@ class Anclaje {
         return this.ocupado;
     }
 
-    Bicicleta getBici() {
+    Movil getBici() {
         return this.bici;
     }
 
-    void anclarBici(Bicicleta bici) {
+    void anclarBici(Movil bici) {
         this.bici = bici;
         this.ocupado = true;
     }

@@ -2,8 +2,7 @@ package domain.estacion;
 
 import java.util.concurrent.ThreadLocalRandom;
 
-import domain.bicicleta.Bicicleta;
-import domain.estacion.Anclaje;
+import domain.bicicleta.Movil;
 
 class Anclajes {
 
@@ -33,7 +32,7 @@ class Anclajes {
         return this.anclajes.length;
     }
 
-    void ocuparAnclaje(int posicion, Bicicleta bici) {
+    void ocuparAnclaje(int posicion, Movil bici) {
 		this.anclajes[posicion].anclarBici(bici);
     }
 
@@ -45,7 +44,7 @@ class Anclajes {
 		this.anclajes[posicion].liberarBici();
     }
     
-    Bicicleta getBiciAt(int posicion) {
+    Movil getBiciAt(int posicion) {
         return this.anclajes[posicion].getBici();
     }
 

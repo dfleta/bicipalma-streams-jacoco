@@ -1,6 +1,6 @@
 package domain.bicicleta;
 
-public class Bicicleta {
+public class Bicicleta implements Movil {
 
 	private final int id;
 
@@ -8,6 +8,7 @@ public class Bicicleta {
 		this.id = id;
 	}
 
+	@Override
 	public int getId() {
 		return id;
 	}

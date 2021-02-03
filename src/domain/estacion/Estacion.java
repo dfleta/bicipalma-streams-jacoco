@@ -1,8 +1,7 @@
 package domain.estacion;
 
-import domain.bicicleta.Bicicleta;
-import domain.tarjetausuario.TarjetaUsuario;
-import domain.estacion.Anclajes;
+import domain.bicicleta.Movil;
+import domain.tarjetausuario.Autenticacion;
 
 public class Estacion {
 
@@ -71,7 +70,7 @@ public class Estacion {
 		return anclajesLibres;
 	}
 
-	public void anclarBicicleta(Bicicleta bici) {
+	public void anclarBicicleta(Movil bici) {
 		// insertar el objeto bicicleta en el primer registro libre del array
 
 		int posicion = 0;
@@ -89,11 +88,11 @@ public class Estacion {
 		}
 	}
 
-	public boolean leerTarjetaUsuario(TarjetaUsuario tarjetaUsuario) {
+	public boolean leerTarjetaUsuario(Autenticacion tarjetaUsuario) {
 		return tarjetaUsuario.isActivada();
 	}
 
-	public void retirarBicicleta(TarjetaUsuario tarjetaUsuario) {
+	public void retirarBicicleta(Autenticacion tarjetaUsuario) {
 		// genero un número de anclaje random = posicion en array
 		// y retiro bici => poner a null
 
@@ -119,12 +118,12 @@ public class Estacion {
 		}
 	}
 
-	private void mostrarBicicleta(Bicicleta bicicleta, int numeroAnclaje) {
+	private void mostrarBicicleta(Movil bicicleta, int numeroAnclaje) {
 		System.out.println("bicicleta retirada: " + bicicleta.getId() 
 							+ " del anclaje: " + numeroAnclaje);
 	}
 
-	private void mostrarAnclaje(Bicicleta bicicleta, int numeroAnclaje) {
+	private void mostrarAnclaje(Movil bicicleta, int numeroAnclaje) {
 		System.out.println("bicicleta " + bicicleta.getId() 
 							+ " anclada en el anclaje " + numeroAnclaje);
 	}
