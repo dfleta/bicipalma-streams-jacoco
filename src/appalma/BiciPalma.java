@@ -35,7 +35,7 @@ public class BiciPalma {
 
 		System.out.println("\n **** caso TEST anclar bicicleta(s) **** \n");
 
-		int[] bicicletas = { 291, 292, 293, 294 };
+		int[] bicicletas = { 291, 292, 293, 294, 295, 296, 297 };
 		
 		Bicicleta bicicleta = null;
 		for (int id : bicicletas) {
@@ -69,7 +69,7 @@ public class BiciPalma {
 
 		estacion.consultarAnclajes();
 
-		System.out.println("anclajesLibres: " + estacion.anclajesLibres());
+		System.out.println("anclajes libres: " + estacion.anclajesLibres());
 
 		/**
 		 * Caso TEST tarjeta inactiva 

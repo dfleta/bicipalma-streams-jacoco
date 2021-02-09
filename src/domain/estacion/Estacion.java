@@ -1,5 +1,8 @@
 package domain.estacion;
 
+import java.util.Arrays;
+import java.util.Optional;
+
 import domain.bicicleta.Movil;
 import domain.tarjetausuario.Autenticacion;
 
@@ -15,8 +18,6 @@ public class Estacion {
 	 * La estación de divide en centralita /lógica y hardware /anclajes
 	 * que es la interfaz con el usuario/a.
 	 * Hardware anclaje no es una capa de acceso a datos... pero casi
-	 * Este diseño se ve influido por el diseño de la BBDD: 
-	 * Entidades libro UML Quique
 	 */
 
 	public Estacion(int id, String direccion, int numAnclajes) {
@@ -34,10 +35,9 @@ public class Estacion {
 	}
 
 	@Override
-	public String toString() {
-		return 	"id: " + getId() + '\n' +
-				"direccion: " + getDireccion() + '\n' +
-				"numeroAnclajes: " + numAnclajes();
+	public String toString() {	
+		return String.format("id: %d %ndireccion: %s %nanclajes: %s", 
+							  getId(), getDireccion(), numAnclajes());
 	}
 
 	/**
@@ -60,31 +60,21 @@ public class Estacion {
 		System.out.println(this);
 	}
 
-	public int anclajesLibres() {
+	public long anclajesLibres() {
 
-		int anclajesLibres = 0;
-		for (Anclaje anclaje : anclajes()) {
-			// si el registro del array es null => anclaje libre
-			anclajesLibres = anclaje.isOcupado()? anclajesLibres: ++anclajesLibres;
-		}
-		return anclajesLibres;
+		return Arrays.stream(anclajes()).filter(a -> !a.isOcupado()).count();
+
 	}
 
 	public void anclarBicicleta(Movil bici) {
 		// insertar el objeto bicicleta en el primer registro libre del array
 
-		int posicion = 0;
-		int numeroAnclaje = posicion + 1;
+		Optional<Anclaje> anclajeLibre = Arrays.stream(anclajes()).filter(a -> !a.isOcupado()).findAny();
 
-		for (Anclaje anclaje : anclajes()) {
-			if (!anclaje.isOcupado()) { // leer anclaje
-				anclajes.ocuparAnclaje(posicion, bici); // set anclaje
-				mostrarAnclaje(bici, numeroAnclaje);
-				break;
-			} else {
-				posicion++;
-			}
-			numeroAnclaje++;
+		if (anclajeLibre.isPresent()) {
+			anclajeLibre.get().anclarBici(bici);
+		} else {
+			System.out.println("No existen anclajes disponibles para bici " + bici);
 		}
 	}
 
@@ -93,24 +83,18 @@ public class Estacion {
 	}
 
 	public void retirarBicicleta(Autenticacion tarjetaUsuario) {
-		// genero un número de anclaje random = posicion en array
-		// y retiro bici => poner a null
 
 		if (leerTarjetaUsuario(tarjetaUsuario)) {
 
-			boolean biciRetirada = false;
+			Optional<Anclaje> anclajeOcupado = Arrays.stream(anclajes()).filter(Anclaje::isOcupado).findAny();
 
-			while (!biciRetirada) {
+			if (anclajeOcupado.isPresent()) {
 
-				int posicion = anclajes.seleccionarAnclaje();
-				int numeroAnclaje = posicion + 1;
+				mostrarBicicleta(anclajeOcupado.get().getBici());
+				anclajeOcupado.get().liberarBici();
 
-				if (anclajes.isAnclajeOcupado(posicion)) { // leer anclaje
-					mostrarBicicleta(anclajes.getBiciAt(posicion), numeroAnclaje);
-					anclajes.liberarAnclaje(posicion); // set anclaje
-					biciRetirada = true;
-				} else
-					; // generamos nuevo número de anclaje;
+			} else {
+				System.out.println("No hay bicis");
 			}
 
 		} else {
@@ -118,9 +102,9 @@ public class Estacion {
 		}
 	}
 
-	private void mostrarBicicleta(Movil bicicleta, int numeroAnclaje) {
+	private void mostrarBicicleta(Movil bicicleta /*, int numeroAnclaje*/) {
 		System.out.println("bicicleta retirada: " + bicicleta.getId() 
-							+ " del anclaje: " + numeroAnclaje);
+							/*+ " del anclaje: " + numeroAnclaje*/);
 	}
 
 	private void mostrarAnclaje(Movil bicicleta, int numeroAnclaje) {
@@ -132,17 +116,9 @@ public class Estacion {
 		// Recorre el array anclajes y 
 		// Muestra si está libre o el id de la bici anclada 
 
-		int posicion = 0;
-		int numeroAnclaje = 0;
-
-		for (Anclaje anclaje : anclajes()) {
-			numeroAnclaje = posicion + 1;
-			if (anclaje.isOcupado()) {
-				System.out.println("Anclaje " + numeroAnclaje + " " + anclaje.getBici().getId());
-			} else {
-				System.out.println("Anclaje " + numeroAnclaje + " " + " libre");
-			}
-			posicion++;
-		}
+		Arrays.stream(anclajes()).map(a -> Optional.ofNullable(a.getBici()))
+								 .forEach(bici -> System.out.print("Anclaje " + 
+								 									(bici.isPresent()? bici.get(): "libre") 
+																	 + '\n'));
 	}
 }
