@@ -2,6 +2,7 @@
 plugins {
     id 'java'
     id 'application'
+    id 'jacoco'
 }
 
 repositories {
@@ -21,6 +22,12 @@ sourceSets {
             srcDirs = ['src']
         }
     }
+
+    test {
+        java {
+            srcDirs = ['test']
+        }
+    }
 }
 
 java {
@@ -30,4 +37,22 @@ java {
 
 application {
     mainClassName = 'appalma.BiciPalma'
+}
+
+test {
+    finalizedBy jacocoTestReport // report is always generated after tests run
+}
+
+jacocoTestReport {
+    dependsOn test // tests are required to run before generating the report
+}
+
+jar {
+    manifest {
+        attributes 'Main-Class' : 'appalma.BiciPalma',
+                   'Package-Title' : 'Bicipalma',
+                   'Package-Version': '1.0',
+                   'Package-Vendor' : 'davidg@cifpfbmol.eu',
+                   'Specification-Title' : 'Examen BiciPalma'
+    }
 }
