@@ -67,7 +67,7 @@ public class Estacion {
 	}
 
 	public void anclarBicicleta(Movil bici) {
-		// insertar el objeto bicicleta en el primer registro libre del array
+		// insertar el objeto bicicleta en cualquier anclaje libre del array
 
 		Optional<Anclaje> anclajeLibre = Arrays.stream(anclajes()).filter(a -> !a.isOcupado()).findAny();
 
