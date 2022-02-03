@@ -5,7 +5,6 @@ import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 
-import appalma.BiciPalma;
 import domain.bicicleta.Bicicleta;
 
 public class AnclajeTest {
