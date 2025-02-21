@@ -10,7 +10,7 @@ public class BiciPalma {
 
 		Estacion estacion = new Estacion(1, "Manacor", 6);
 
-		/**
+		/*
 		 * caso TEST visualizar estado de la estacion:
 		 * muestra id, direccion, anclaje 
 		 */
@@ -19,7 +19,7 @@ public class BiciPalma {
 
 		estacion.consultarEstacion();
 
-		/**
+		/*
 		 * caso TEST visualizar anclajes libres
 		 */
 
@@ -29,7 +29,7 @@ public class BiciPalma {
 
 		estacion.consultarAnclajes();
 
-		/**
+		/*
 		 * caso TEST anclar bicicleta(s) 
 		 */
 
@@ -46,7 +46,7 @@ public class BiciPalma {
 		System.out.println("anclajes libres tras generar " + bicicletas.length 
 							+ " bicis: " + estacion.anclajesLibres());
 
-		/**
+		/*
 		 * Caso TEST consultar bicicletas ancladas 
 		 */
 
@@ -54,7 +54,7 @@ public class BiciPalma {
 
 		estacion.consultarAnclajes();
 
-		/** 
+		/*
 		 * Caso TEST retirar bicicleta 
 		 */
 
@@ -71,7 +71,7 @@ public class BiciPalma {
 
 		System.out.println("anclajes libres: " + estacion.anclajesLibres());
 
-		/**
+		/*
 		 * Caso TEST tarjeta inactiva 
 		 */
 

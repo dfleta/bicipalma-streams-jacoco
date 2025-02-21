@@ -3,14 +3,17 @@ plugins {
     id 'java'
     id 'application'
     id 'jacoco'
+    id 'net.ltgt.errorprone' version "4.0.1"
 }
 
 repositories {
     mavenCentral()
+    gradlePluginPortal()
 }
 
 dependencies {
     testImplementation 'junit:junit:4.12'
+    errorprone 'com.google.errorprone:error_prone_core:2.28.0'
 }
 
 sourceSets {
@@ -31,8 +34,8 @@ sourceSets {
 }
 
 java {
-    sourceCompatibility = JavaVersion.VERSION_11
-    targetCompatibility = JavaVersion.VERSION_11
+    sourceCompatibility = JavaVersion.VERSION_21
+    targetCompatibility = JavaVersion.VERSION_21
 }
 
 application {
@@ -40,6 +43,7 @@ application {
 }
 
 test {
+    useJUnit()
     finalizedBy jacocoTestReport // report is always generated after tests run
 }
 
